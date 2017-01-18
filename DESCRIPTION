@@ -1,4 +1,4 @@
-Package: gdx2iamcdb
+Package: gdx2iamc
 Type: Package
 Title: Convert a GDX into a IAMC XLS Submission File
 Version: 0.1.0
