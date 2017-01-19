@@ -90,8 +90,8 @@ load_gdx.iamc.template <- function(x, gdxfiles, nrep.keep, year.keep = NULL, sce
 
   # load all gdx report variables
   varname <- function(v1,v2,v3){
-    v1=ifelse(v1=='' & v2!='','',paste0(v1,'|'))
-    v2=ifelse(v2=='' & v3!='','',paste0(v2,'|'))
+    v1=ifelse(v1!='' & v2!='',paste0(v1,'|'),v1)
+    v2=ifelse(v2!='' & v3!='',paste0(v2,'|'),v2)
     return(paste0(v1,v2,v3))
   }
   gdx.rep = data.table::rbindlist(lapply(gdxlist,gdxtools::extract,'db',addgdx=T))
