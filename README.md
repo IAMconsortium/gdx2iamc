@@ -4,7 +4,7 @@ Convert a serie of gdx files into xls files for submission to IAMC DB
 
 ## Usage
 
-```{R}
+```R
 
 # BEFORE USE:
 # Please rename this file according to the submission
