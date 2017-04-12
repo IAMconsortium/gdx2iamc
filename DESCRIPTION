@@ -1,7 +1,7 @@
 Package: gdx2iamc
 Type: Package
 Title: Convert a GDX into a IAMC XLS Submission File
-Version: 0.1.0
+Version: 0.2.0
 Author@R: person("Laurent","Drouet", email = "ldrouet@gmail.com",
     role = c("aut", "cre"))
 Maintainer: L.Drouet <ldrouet@gmail.com>
@@ -18,4 +18,4 @@ Imports:
     openxlsx,
     stringr,
     data.table
-RoxygenNote: 5.0.1
+RoxygenNote: 6.0.1

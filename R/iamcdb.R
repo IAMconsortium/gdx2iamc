@@ -22,7 +22,7 @@ load_var <- function(x, ...) {
 #' @export
 # load the variable definition from the template
 load_var.iamc.template <- function(x, sheetvar = "variable definitions", colvar = NA, colunit = NA,
-    firstrow = 2, convert2usd2010 = F) {
+    firstrow = 2, convert_usd = 1) {
 
     # open template workbook
     wb <- openxlsx::loadWorkbook(file = x$filename)
@@ -52,9 +52,7 @@ load_var.iamc.template <- function(x, sheetvar = "variable definitions", colvar 
     xls.var = data.frame(var = as.character(variables[, 1]), unit = as.character(units[, 1]))
 
     # coeff
-    xls.var$coeff=1
-    if (convert2usd2010)
-      xls.var[grep("US\\$",xls.var$unit),]$coeff = 1.10774
+    xls.var[grep("US\\$",xls.var$unit),]$coeff = convert_usd
 
     return(xls.var)
 
@@ -70,6 +68,16 @@ load_gdx.iamc.template <- function(x, gdxfiles, nrep.keep, year.keep = NULL, sce
 
   if(!length(gdxfiles)>0){stop("load_gdx error: please provide at least one GDX filename")}
 
+  # test consitency with gdx region, using standard IIASA naming
+  .confgdx <- gdx(gdxfiles[1])
+  .conf <- confgdx["db"]
+  .n <- unique(confgdx["db"]$nrep)
+  nrep.keep.gdx = c(toupper(as.character(unlist(.n))))
+  nrep.keep.gdx[nrep.keep.gdx=="WORLD"] = "World"
+  if(!identical(sort(nrep.keep),sort(nrep.keep.gdx))){
+    warning("nrep.keep is not compatible with the regions from the DB files. You may consider to adjust nrep.keep.")
+  }
+
   if(is.null(scen_func)){
     scen_func <- function(.gdxfile){
       name = basename(.gdxfile)
@@ -81,8 +89,6 @@ load_gdx.iamc.template <- function(x, gdxfiles, nrep.keep, year.keep = NULL, sce
   gdxlist = lapply(gdxfiles, gdxtools::gdx)
 
   # NREP is case-sensitive. It should have the same case as in the registration template
-  #nrep.keep =c('USA', 'OLDEURO', 'NEWEURO', 'KOSAU', 'CAJAZ', 'TE', 'MENA', 'SSA',
-  #             'SASIA', 'CHINA', 'EASIA', 'LACA', 'INDIA', 'World')
   if(is.null(year.keep)){
     year.keep = get_years(x)
     print(paste("Found template years:",paste(year.keep,collapse = ",")))
@@ -128,7 +134,9 @@ save_xls <- function(x, ...) {
 
 #' @export
 #' @import data.table
-save_xls.iamc.template <- function(x, .gdx.data, .iamc.vars, model_name, sheetdata = "data", addtimestamp = T, keepNA = F) {
+save_xls.iamc.template <- function(x, .gdx.data, .iamc.vars, model_name,
+                                   sheetdata = "data", addtimestamp = T, keepNA = F,
+                                   maxrowfile = 15000) {
 
     # ensure data.table
     .gdx.data = data.table(.gdx.data)
@@ -172,7 +180,6 @@ save_xls.iamc.template <- function(x, .gdx.data, .iamc.vars, model_name, sheetda
     tabdata[is.na(tabdata)] <- "N/A"
 
     # find parts that not split scenario [to limit size file]
-    maxrowfile = 15000
     tsize = tabdata[, .(nrow = nrow(.SD)), by = "scenario"]
     tsize[, `:=`(idx, as.integer(cumsum(nrow)/maxrowfile) + 1)]
     idxpart = merge(tabdata[, .(scenario)], tsize[, .(scenario, idx)], by = "scenario")$idx
