@@ -52,6 +52,7 @@ load_var.iamc.template <- function(x, sheetvar = "variable definitions", colvar 
     xls.var = data.frame(var = as.character(variables[, 1]), unit = as.character(units[, 1]))
 
     # coeff
+    xls.var$coeff = 1
     xls.var[grep("US\\$",xls.var$unit),]$coeff = convert_usd
 
     return(xls.var)
