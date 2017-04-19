@@ -71,8 +71,7 @@ load_gdx.iamc.template <- function(x, gdxfiles, nrep.keep, year.keep = NULL, sce
 
   # test consitency with gdx region, using standard IIASA naming
   .confgdx <- gdx(gdxfiles[1])
-  .conf <- confgdx["db"]
-  .n <- unique(confgdx["db"]$nrep)
+  .n <- unique(.confgdx["db"]$nrep)
   nrep.keep.gdx = c(toupper(as.character(unlist(.n))))
   nrep.keep.gdx[nrep.keep.gdx=="WORLD"] = "World"
   if(!identical(sort(nrep.keep),sort(nrep.keep.gdx))){
