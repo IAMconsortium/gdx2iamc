@@ -133,6 +133,9 @@ save_xls.iamc.template <- function(x, .gdx.data, .iamc.vars, model_name, sheetda
     # ensure data.table
     .gdx.data = data.table(.gdx.data)
     .iamc.vars = data.table(.iamc.vars)
+    
+    # remove potential double entries in the template
+    .iamc.vars = unique(.iamc.vars)
 
     # merge
     .iamc.vars$ivar = tolower(.iamc.vars$var)
