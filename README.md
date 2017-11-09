@@ -1,6 +1,20 @@
 # gdx2iamc
 
-Convert a serie of gdx files into xls files for submission to IAMC DB
+R package to load GDX file(s) into data.frame compatible with the IAMC format.  
+
+## Installation
+
+```R
+library(devtools)
+install_github('IAMconsortium/gdx2iamc')
+```
+
+it requires the package gdxtools to be installed as follows:
+
+```R
+install_github('lolow/gdxtools')
+```
+
 
 ## Usage
 
@@ -55,8 +69,15 @@ gdxfiles = Sys.glob(file.path(templatedir, 'db*.gdx'))
 #Load data from the GDX files and store it in gdx.data
 gdx.data = load_gdx(template, gdxfiles, nrep.keep, scen_func=scenario_name)
 
+```
+
+## IAMC submission
+
+You can create an excel spreadsheet for IAMC submission with the function `save_xls`
+
+```R
 #Save data into xls files
 res = save_xls(template,gdx.data, iamc.vars, model_name, maxrowfile=max_row_xlsx)
-
-
 ```
+
+
