@@ -20,11 +20,6 @@ install_github('lolow/gdxtools')
 
 ```R
 
-# BEFORE USE:
-# Please rename this file according to the submission
-# and ajdust the parameters and the naming function in the frame below
-
-
 ## REQUIREMENTS
 
 if(!"gdx2iamc" %in% rownames(installed.packages())){
