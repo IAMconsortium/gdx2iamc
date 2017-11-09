@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # History files
 .Rhistory
 .Rapp.history
@@ -31,3 +32,11 @@ vignettes/*.pdf
 # Temporary files created by R markdown
 *.utf8.md
 *.knit.md
+=======
+*.Rproj
+.Rproj.user
+.Rhistory
+.RData
+.Rbuildignore
+~*
+>>>>>>> gdx2iamc_old/master

@@ -1,0 +1,21 @@
+Package: gdx2iamc
+Type: Package
+Title: Convert a GDX into a IAMC XLS Submission File
+Version: 0.2.0
+Author@R: person("Laurent","Drouet", email = "ldrouet@gmail.com",
+    role = c("aut", "cre"))
+Maintainer: L.Drouet <ldrouet@gmail.com>
+Description: Provides an easy way to convert a pre-formated GDX file into a xlsx
+    submission file. It extracts the variables from a IAMC template, extracts the
+    data from the GDX and generates accordingly the xlsx submission file.
+License: MIT + file LICENSE
+Encoding: UTF-8
+LazyData: true
+Depends:
+    R (>= 3.1.0)
+Imports:
+    gdxtools(>= 0.3.5),
+    openxlsx,
+    stringr,
+    data.table
+RoxygenNote: 6.0.1
