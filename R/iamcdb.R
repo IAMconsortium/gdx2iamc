@@ -71,7 +71,9 @@ load_gdx.iamc.template <- function(x, gdxfiles, nrep.keep, year.keep = NULL, sce
 
   # test consitency with gdx region, using standard IIASA naming
   .confgdx <- gdx(gdxfiles[1])
-  .n <- unique(.confgdx["db"]$nrep)
+  .dbconf <- .confgdx["db"]
+  names(.dbconf) <- c(paste0("V",1:3),"year","nrep","value")
+  .n <- unique(.dbconf$nrep)
   nrep.keep.gdx = c(toupper(as.character(unlist(.n))))
   nrep.keep.gdx[nrep.keep.gdx=="WORLD"] = "World"
   if(!identical(sort(nrep.keep),sort(nrep.keep.gdx))){
@@ -101,6 +103,7 @@ load_gdx.iamc.template <- function(x, gdxfiles, nrep.keep, year.keep = NULL, sce
     return(paste0(v1,v2,v3))
   }
   gdx.rep = data.table::rbindlist(lapply(gdxlist,gdxtools::extract,'db',addgdx=T))
+  names(gdx.rep) <- c(paste0("V",1:3),"yr","nrep","value","gdx")
   gdx.rep$var = tolower(varname(gdx.rep$V1,gdx.rep$V2,gdx.rep$V3))
   gdx.rep$value = as.numeric(gdx.rep$value)
   gdx.rep$year =as.numeric(gdx.rep$yr)
