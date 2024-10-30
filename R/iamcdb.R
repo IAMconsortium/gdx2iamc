@@ -51,9 +51,12 @@ load_var.iamc.template <- function(x, sheetvar = "variable definitions", colvar 
     units = openxlsx::read.xlsx(x$filename, sheetidx, startRow = firstrow, cols = colunit, colNames = F, skipEmptyRows = F)
     xls.var = data.frame(var = as.character(variables[, 1]), unit = as.character(units[, 1]))
 
-    # coeff
+    # Add coefficient for conversion
     xls.var$coeff = 1
-    xls.var[grep("US\\$",xls.var$unit),]$coeff = convert_usd
+    filter_dollar <- grep("(US\\$)|(USD)",xls.var$unit)
+    if (length(filter_dollar) > 0) {
+      xls.var[filter_dollar,]$coeff = convert_usd
+    }
 
     return(xls.var)
 
